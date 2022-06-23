@@ -3,9 +3,7 @@ import { Outlet } from "react-router-dom";
 const MainPage = () => {
   return (
     <>
-      Nav Bar
-      <hr />
-      <Outlet />
+      <div>Main Page</div>
     </>
   );
 };

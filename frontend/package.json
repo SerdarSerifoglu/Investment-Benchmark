@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/App.js",
   "scripts": {
-    "dev": "parcel src/index.html && mv dist ../",
+    "dev": "parcel src/index.html",
+    "build": "parcel src/index.html && mv dist ../",
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
     "lint": "eslint \"src/**/*.{js,jsx}\" --quiet"
   },

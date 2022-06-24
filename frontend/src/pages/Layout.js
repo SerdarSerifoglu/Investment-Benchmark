@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
 import NavbarTop from "../components/NavbarTop";
-import MainPage from "./MainPage";
 
 const Layout = () => {
   return (

@@ -3,12 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "parcel src/index.html",
-    "build": "parcel src/index.html && mv dist ../",
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
     "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
     "start": "react-scripts start",
-    "build2": "react-scripts build && mv build ../"
+    "build": "react-scripts build && mv build ../"
   },
   "author": "Omer Serdar SERIFOGLU",
   "license": "ISC",

@@ -12,6 +12,9 @@ const reportFiltersSlice = createSlice({
       //   const id = action.payload;
       state.filter = "SERDAR";
     },
+    clearReportFilter: (state, action) => {
+      state.filter = {};
+    },
   },
 });
 export const { changeReportFilter } = todosSlice.actions;

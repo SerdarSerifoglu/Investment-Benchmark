@@ -1,24 +1,24 @@
 import { Autocomplete, TextField } from "@mui/material";
 
-const AutocompleteMultiSelect = () => {
+const AutocompleteMultiSelect = ({ fieldProperty }) => {
   var list = [
     { id: 1, name: "Ömer" },
     { id: 2, name: "Serdar" },
     { id: 3, name: "ŞERİFOĞLU" },
   ];
 
-  const handleChangeEvent = (event, value, reason, detail) => {
+  const handleChangeEventInvestmentType = (event, value, reason, detail) => {
     console.log("handleChangeEvent", { event, value, reason, detail });
   };
   return (
     <Autocomplete
       multiple
-      id="tags-outlined"
+      id={fieldProperty}
       options={list}
       getOptionLabel={(option) => option.name}
       defaultValue={[]}
       renderInput={(params) => <TextField {...params} label="Yatırım Türü" />}
-      onChange={handleChangeEvent}
+      onChange={handleChangeEventInvestmentType}
     />
   );
 };

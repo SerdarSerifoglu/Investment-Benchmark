@@ -1,11 +1,11 @@
-import AutocompleteMultiSelect from "../components/AutocompleteMultiSelect";
+import CumulativeReportFilter from "../components/CumulativeReportFilter";
 
 const CumulativeReport = () => {
   return (
     <>
       <div>CumulativeReport</div>
       <br />
-      <AutocompleteMultiSelect />
+      <CumulativeReportFilter />
     </>
   );
 };

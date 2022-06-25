@@ -17,5 +17,5 @@ const reportFiltersSlice = createSlice({
     },
   },
 });
-export const { changeReportFilter } = todosSlice.actions;
+export const { changeReportFilter } = reportFiltersSlice.actions;
 export default reportFiltersSlice.reducer;

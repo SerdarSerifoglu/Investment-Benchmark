@@ -9,8 +9,8 @@ const reportFiltersSlice = createSlice({
   initialState: initialState,
   reducers: {
     changeReportFilter: (state, action) => {
-      //   const id = action.payload;
-      state.filter = "SERDAR";
+      const { fieldProperty, value } = action.payload;
+      state.filter[fieldProperty] = value;
     },
     clearReportFilter: (state, action) => {
       state.filter = {};

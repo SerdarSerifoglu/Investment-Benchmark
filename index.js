@@ -1,8 +1,14 @@
 const express = require("express");
 var cors = require("cors");
 const path = require("path");
+require("./backend/helpers/database/mongo-connection.js");
+const routers = require("./backend/routers/index");
+
 const app = express();
 app.use(cors());
+
+app.use("/api", routers);
+
 app.use(express.static(path.join(__dirname, "")));
 
 const port = 3000;

@@ -6,7 +6,7 @@
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
     "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
     "start": "react-scripts start",
-    "build": "react-scripts build && rm -rf ../build && mv build ../"
+    "build": "react-scripts build && if [ -d ../static ]; then rm -rf ../frontend/build ../static ../asset-manifest.json ../index.html; fi && mv build/static build/asset-manifest.json build/index.html ../ && rm -rf ../frontend/build"
   },
   "author": "Omer Serdar SERIFOGLU",
   "license": "ISC",

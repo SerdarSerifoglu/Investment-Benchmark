@@ -5,6 +5,7 @@ const NavbarTop = () => {
   return (
     <>
       <div className="navbar">
+        <NavLinkStyled to="/admin/date">Admin-Tarih</NavLinkStyled>
         <NavLinkStyled to="/main-page">Ana Sayfa</NavLinkStyled>
         <NavLinkStyled to="/cumulative-report">Birikimli Yatırım</NavLinkStyled>
       </div>

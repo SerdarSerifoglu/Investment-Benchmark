@@ -1,8 +1,8 @@
 const BaseService = require("./baseService.js");
 const Date = require("../models/date.js");
-
+const moment = require("moment");
 class DateService extends BaseService {
-  async createBaseDateData(startDate, endDate) {
+  async createBaseDateData({ startDate, endDate }) {
     try {
       var startDateMoment = moment(startDate, "DD-MM-YYYY")
         .utc()
@@ -13,15 +13,16 @@ class DateService extends BaseService {
         .startOf("day")
         .add(1, "day");
 
-      var diffDayCount = endDateMoment - startDateMoment + 1;
+      const oneDayMs = 86400000;
+      var diffDayCount = (endDateMoment - startDateMoment) / oneDayMs + 1;
 
       for (let index = 1; index <= diffDayCount; index++) {
-        var dateData = await dateService.findBy(
+        var dateData = await this.findBy(
           "date",
           moment(startDate, "DD-MM-YYYY").utc().startOf("day").add(index, "day")
         );
         if (dateData == null || dateData.length == 0) {
-          await dateService.insert({
+          await this.insert({
             date: moment(startDate, "DD-MM-YYYY")
               .utc()
               .startOf("day")

@@ -3,10 +3,11 @@ var cors = require("cors");
 const path = require("path");
 require("./backend/helpers/database/mongo-connection.js");
 const routers = require("./backend/routers/index");
+const bodyParser = require("body-parser");
 
 const app = express();
 app.use(cors());
-
+app.use(bodyParser.json());
 app.use("/api", routers);
 
 app.use(express.static(path.join(__dirname, "")));

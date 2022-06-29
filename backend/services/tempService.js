@@ -1,6 +1,7 @@
 const BaseService = require("./baseService.js");
 const Temp = require("../models/temp");
-const dateService = require("./dateService");
+const DateService = require("./dateService");
+
 var fs = require("fs");
 const path = require("path");
 const csv = require("csvtojson");
@@ -17,7 +18,13 @@ class TempService extends BaseService {
       var finishedFileNames = [];
       for (let i = 0; i < files.length; i++) {
         var insertManyArray = [];
+        /* Burası sonradan db üzerinden çalışacak şekle getirilecek */
         var types = [
+          "ALTIN",
+          "GUMUS",
+          "USD",
+          "EUR",
+          "BTC",
           "ADESE",
           "AEFES",
           "AGHOL",
@@ -148,7 +155,7 @@ class TempService extends BaseService {
             : csvLastItemDate;
         ////Tarih Ayıklama Son
 
-        var mainData = await dateService.load({
+        var mainData = await DateService.load({
           dateNumeric: { $gte: firstDate, $lte: lastDate },
         });
         mainData.sort((a, b) => Number(a.dateNumeric) - Number(b.dateNumeric));

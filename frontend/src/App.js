@@ -4,6 +4,7 @@ import Layout from "./pages/Layout";
 import MainPage from "./pages/MainPage";
 import Date from "./pages/admin/Date";
 import DataInsertFromCsv from "./pages/admin/DataInsertFromCsv";
+import RevenueReport from "./pages/RevenueReport";
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
         <Route path="/" element={<Layout />}>
           <Route path="/main-page" element={<MainPage />} />
           <Route path="/cumulative-report" element={<CumulativeReport />} />
+          <Route path="/revenue-report" element={<RevenueReport />} />
           <Route path="/admin/date" element={<Date />} />
           <Route path="/admin/csv" element={<DataInsertFromCsv />} />
         </Route>

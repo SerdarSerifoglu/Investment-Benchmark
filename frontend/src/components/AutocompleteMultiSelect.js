@@ -2,7 +2,11 @@ import { Autocomplete, TextField } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { changeReportFilter } from "../redux/reportFilters/reportFiltersSlice";
 
-const AutocompleteMultiSelect = ({ fieldProperty }) => {
+const AutocompleteMultiSelect = ({
+  fieldProperty,
+  valueProperty,
+  stateName,
+}) => {
   const dispatch = useDispatch();
 
   var list = [
@@ -12,10 +16,7 @@ const AutocompleteMultiSelect = ({ fieldProperty }) => {
   ];
 
   const handleChangeEventInvestmentType = (event, value, reason, detail) => {
-    console.log("handleChangeEvent", { event, value, reason, detail });
-    dispatch(
-      changeReportFilter({ fieldProperty, value: value.map((e) => e.name) })
-    );
+    dispatch(changeReportFilter({ fieldProperty, value, stateName }));
   };
   return (
     <Autocomplete
@@ -23,7 +24,7 @@ const AutocompleteMultiSelect = ({ fieldProperty }) => {
       id={fieldProperty}
       options={list}
       getOptionLabel={(option) => option.name}
-      defaultValue={[]}
+      defaultValue={valueProperty}
       renderInput={(params) => <TextField {...params} label="Yatırım Türü" />}
       onChange={handleChangeEventInvestmentType}
     />

@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { changeReportFilter } from "../redux/reportFilters/reportFiltersSlice";
 
-export const DatePicker = ({ fieldProperty }) => {
+export const DatePicker = ({ fieldProperty, valueProperty, stateName }) => {
   const dispatch = useDispatch();
 
   return (
@@ -9,9 +9,15 @@ export const DatePicker = ({ fieldProperty }) => {
       type="date"
       id={fieldProperty}
       name={fieldProperty}
+      defaultValue={valueProperty}
       onChange={(e) => {
-        console.log("date", e.target.value);
-        dispatch(changeReportFilter({ fieldProperty, value: e.target.value }));
+        dispatch(
+          changeReportFilter({
+            fieldProperty,
+            value: e.target.value,
+            stateName,
+          })
+        );
       }}
     ></input>
   );

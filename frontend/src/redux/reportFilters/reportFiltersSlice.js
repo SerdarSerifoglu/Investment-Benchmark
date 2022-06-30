@@ -2,18 +2,27 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import httpClientService from "../../http-client/httpClientService";
 
 export const reportFilter = (state) => state.reportFilters.reportFilter;
+export const RevenueReportFilter = (state) =>
+  state.reportFilters.RevenueReportFilter;
 
 export const getCumulativeReportData = createAsyncThunk(
   "reportFilters/getCumulativeReportData",
   async (data) => {
-    console.log(data);
     const res = await httpClientService.post(`test`, data);
+    return await res.json();
+  }
+);
+export const getRevenueReportData = createAsyncThunk(
+  "reportFilters/getRevenueReportData",
+  async (data) => {
+    const res = await httpClientService.post(`test-revenue`, data);
     return await res.json();
   }
 );
 
 const initialState = {
   reportFilter: {},
+  RevenueReportFilter: {},
 };
 
 const reportFiltersSlice = createSlice({
@@ -21,8 +30,8 @@ const reportFiltersSlice = createSlice({
   initialState: initialState,
   reducers: {
     changeReportFilter: (state, action) => {
-      const { fieldProperty, value } = action.payload;
-      state.reportFilter[fieldProperty] = value;
+      const { fieldProperty, value, stateName } = action.payload;
+      state[stateName][fieldProperty] = value;
     },
     clearReportFilter: (state) => {
       state.reportFilter = {};
@@ -30,5 +39,6 @@ const reportFiltersSlice = createSlice({
   },
 });
 
-export const { changeReportFilter } = reportFiltersSlice.actions;
+export const { changeReportFilter, clearReportFilter } =
+  reportFiltersSlice.actions;
 export default reportFiltersSlice.reducer;

@@ -4,12 +4,12 @@ import { DatePicker } from "./DatePicker";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getCumulativeReportData,
-  reportFilter,
+  CumulativeReportFilter as CRF,
 } from "../redux/reportFilters/reportFiltersSlice";
 
 const CumulativeReportFilter = () => {
   const dispatch = useDispatch();
-  const reportFilterData = useSelector(reportFilter);
+  const reportFilterData = useSelector(CRF);
 
   const buttonClickEvent = () => {
     dispatch(getCumulativeReportData(reportFilterData));
@@ -17,9 +17,21 @@ const CumulativeReportFilter = () => {
 
   return (
     <>
-      <AutocompleteMultiSelect fieldProperty="investmentType" />
-      <DatePicker fieldProperty="startDate" />
-      <DatePicker fieldProperty="endDate" />
+      <AutocompleteMultiSelect
+        fieldProperty="investmentType"
+        valueProperty={reportFilterData["investmentType"]}
+        stateName={CumulativeReportFilter.name}
+      />
+      <DatePicker
+        fieldProperty="startDate"
+        valueProperty={reportFilterData["startDate"]}
+        stateName={CumulativeReportFilter.name}
+      />
+      <DatePicker
+        fieldProperty="endDate"
+        valueProperty={reportFilterData["endDate"]}
+        stateName={CumulativeReportFilter.name}
+      />
       <Button variant="contained" onClick={buttonClickEvent}>
         Hesapla
       </Button>

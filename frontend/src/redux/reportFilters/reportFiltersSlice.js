@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import httpClientService from "../../http-client/httpClientService";
 
-export const reportFilter = (state) => state.reportFilters.reportFilter;
 export const RevenueReportFilter = (state) =>
   state.reportFilters.RevenueReportFilter;
+export const CumulativeReportFilter = (state) =>
+  state.reportFilters.CumulativeReportFilter;
 
 export const getCumulativeReportData = createAsyncThunk(
   "reportFilters/getCumulativeReportData",
@@ -21,8 +22,8 @@ export const getRevenueReportData = createAsyncThunk(
 );
 
 const initialState = {
-  reportFilter: {},
   RevenueReportFilter: {},
+  CumulativeReportFilter: {},
 };
 
 const reportFiltersSlice = createSlice({
@@ -33,12 +34,8 @@ const reportFiltersSlice = createSlice({
       const { fieldProperty, value, stateName } = action.payload;
       state[stateName][fieldProperty] = value;
     },
-    clearReportFilter: (state) => {
-      state.reportFilter = {};
-    },
   },
 });
 
-export const { changeReportFilter, clearReportFilter } =
-  reportFiltersSlice.actions;
+export const { changeReportFilter } = reportFiltersSlice.actions;
 export default reportFiltersSlice.reducer;

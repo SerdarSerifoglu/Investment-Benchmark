@@ -30,16 +30,14 @@ const RevenueReportCharts = () => {
     dataset.backgroundColor = colors[index];
     datasets.push(dataset);
   });
-  datasets = datasets.sort(
-    (a, b) => Number(b.lastValueTL) - Number(a.lastValueTL)
-  );
+
   const data = {
     labels,
     datasets: datasets,
   };
   return (
     <>
-      <Bar options={options} data={chartData} />
+      <Bar options={options} data={data} />
     </>
   );
 };

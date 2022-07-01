@@ -7,6 +7,7 @@ import {
   RevenueReportFilter as RRF,
 } from "../redux/reportFilters/reportFiltersSlice";
 import TextFieldNumber from "./TextFieldNumber";
+import { componentNames } from "../helpers/statics";
 
 const RevenueReportFilter = () => {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const RevenueReportFilter = () => {
         <AutocompleteMultiSelect
           fieldProperty="investmentType"
           valueProperty={reportFilterData["investmentType"]}
-          stateName={RevenueReportFilter.name}
+          stateName={componentNames.RevenueReportFilter}
         />
       </div>
       <br />
@@ -30,12 +31,12 @@ const RevenueReportFilter = () => {
         <DatePicker
           fieldProperty="startDate"
           valueProperty={reportFilterData["startDate"]}
-          stateName={RevenueReportFilter.name}
+          stateName={componentNames.RevenueReportFilter}
         />
         <DatePicker
           fieldProperty="endDate"
           valueProperty={reportFilterData["endDate"]}
-          stateName={RevenueReportFilter.name}
+          stateName={componentNames.RevenueReportFilter}
         />
       </div>
       <br />
@@ -43,7 +44,7 @@ const RevenueReportFilter = () => {
         <TextFieldNumber
           fieldProperty="investmentAmount"
           valueProperty={reportFilterData["investmentAmount"]}
-          stateName={RevenueReportFilter.name}
+          stateName={componentNames.RevenueReportFilter}
         />
       </div>
       <br />

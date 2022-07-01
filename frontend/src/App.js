@@ -7,6 +7,7 @@ import DataInsertFromCsv from "./pages/admin/DataInsertFromCsv";
 import RevenueReport from "./pages/RevenueReport";
 
 const App = () => {
+  const isAdmin = false;
   return (
     <BrowserRouter>
       <Routes>
@@ -14,8 +15,14 @@ const App = () => {
           <Route path="/main-page" element={<MainPage />} />
           <Route path="/cumulative-report" element={<CumulativeReport />} />
           <Route path="/revenue-report" element={<RevenueReport />} />
-          <Route path="/admin/date" element={<Date />} />
-          <Route path="/admin/csv" element={<DataInsertFromCsv />} />
+          {isAdmin ? (
+            <>
+              <Route path="/admin/date" element={<Date />} />
+              <Route path="/admin/csv" element={<DataInsertFromCsv />} />
+            </>
+          ) : (
+            ""
+          )}
         </Route>
       </Routes>
     </BrowserRouter>

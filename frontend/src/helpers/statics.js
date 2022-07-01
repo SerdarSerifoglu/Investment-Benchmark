@@ -4,11 +4,11 @@ export const componentNames = Object.freeze({
 });
 
 export const investmentTypes = Object.freeze([
-  { name: "ALTIN" },
-  { name: "GUMUS" },
+  { name: "ALTIN_TL" },
+  { name: "GUMUS_TL" },
   { name: "USD" },
   { name: "EUR" },
-  { name: "BTC" },
+  { name: "BTC_TL" },
   { name: "ADESE" },
   { name: "AEFES" },
   { name: "AGHOL" },

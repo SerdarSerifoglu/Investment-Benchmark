@@ -5,25 +5,30 @@ export const RevenueReportFilter = (state) =>
   state.reportFilters.RevenueReportFilter;
 export const CumulativeReportFilter = (state) =>
   state.reportFilters.CumulativeReportFilter;
+export const RevenueReportData = (state) =>
+  state.reportFilters.RevenueReportData;
 
 export const getCumulativeReportData = createAsyncThunk(
   "reportFilters/getCumulativeReportData",
-  async (data) => {
-    const res = await httpClientService.post(`test`, data);
-    return await res.json();
+  async (filterData) => {
+    const { data } = await httpClientService.post(`test`, filterData);
+    return data;
   }
 );
 export const getRevenueReportData = createAsyncThunk(
   "reportFilters/getRevenueReportData",
-  async (data) => {
-    const res = await httpClientService.post(`/report/revenue-report`, data);
-    return await res.json();
+  async (filterData) => {
+    const { data } = await httpClientService.post(
+      `/report/revenue-report`,
+      filterData
+    );
+    return data;
   }
 );
 
 const initialState = {
   RevenueReportFilter: {},
-  RevenueReportData: {},
+  RevenueReportData: [],
   CumulativeReportFilter: {},
 };
 

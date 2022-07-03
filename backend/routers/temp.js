@@ -7,5 +7,10 @@ router.get("/", async (req, res) => {
 
   res.json(response);
 });
+router.get("/v2", async (req, res) => {
+  const response = await tempService.insertTempDataFromCsv_v2();
+
+  res.json(response);
+});
 
 module.exports = router;

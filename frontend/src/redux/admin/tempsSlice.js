@@ -8,6 +8,13 @@ export const tempsInsert = createAsyncThunk(
     return response.data;
   }
 );
+export const tempsInsertV2 = createAsyncThunk(
+  "tempsSlice/tempsInsert",
+  async (data) => {
+    var response = await httpClientService.get(`temps/v2`);
+    return response.data;
+  }
+);
 
 const initialState = {};
 

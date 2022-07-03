@@ -24,17 +24,25 @@ class ReportService extends BaseService {
       var initialCount = (
         initialValueTL / startDateData[0].values[investType]
       ).toFixed(4);
+      var initialUnitPriceTL = startDateData[0].values[investType].toFixed(2);
+      var initialDateString = startDateData[0].dateString;
       var lastValueTL = (
         initialCount * endDateData[0].values[investType]
       ).toFixed(4);
+      var lastUnitPriceTL = endDateData[0].values[investType].toFixed(2);
+      var lastDateString = endDateData[0].dateString;
       var revenueRate = ((lastValueTL / initialValueTL) * 100 - 100).toFixed(2);
       var investTypeValue = investType;
       resultObj = {
         initialValueTL,
         initialCount,
+        initialUnitPriceTL,
+        initialDateString,
         lastValueTL,
         revenueRate,
         investTypeValue,
+        lastUnitPriceTL,
+        lastDateString,
       };
       resultArray.push(resultObj);
     }

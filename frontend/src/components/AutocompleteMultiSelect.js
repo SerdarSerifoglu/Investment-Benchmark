@@ -17,7 +17,7 @@ const AutocompleteMultiSelect = ({
     <Autocomplete
       multiple
       id={fieldProperty}
-      options={investmentTypes.map((e) => e.name)}
+      options={investmentTypes.map((e) => e.code)}
       getOptionLabel={(option) => option}
       renderInput={(params) => <TextField {...params} label="Yatırım Türü" />}
       onChange={handleChangeEventInvestmentType}

@@ -1,13 +1,14 @@
 import RevenueReportFilter from "../components/RevenueReportFilter";
 import RevenueReportCharts from "../components/RevenueReportCharts";
+import RevenueReportList from "../components/RevenueReportList";
 
 const RevenueReport = () => {
   return (
     <>
-      <div>RevenueReport</div>
       <br />
       <RevenueReportFilter />
       <RevenueReportCharts />
+      <RevenueReportList />
     </>
   );
 };

@@ -1,10 +1,13 @@
 import { Bar } from "react-chartjs-2";
-import { RevenueReportData } from "../redux/reportFilters/reportFiltersSlice";
+import {
+  RevenueReportData,
+  RevenueReportFilter,
+} from "../redux/reportFilters/reportFiltersSlice";
 import { useSelector } from "react-redux";
 
 const RevenueReportCharts = () => {
   const reportData = useSelector(RevenueReportData);
-
+  const revenueReportFilter = useSelector(RevenueReportFilter);
   const options = {
     responsive: true,
     plugins: {
@@ -13,7 +16,11 @@ const RevenueReportCharts = () => {
       },
       title: {
         display: true,
-        text: "xxxxx Tarihindeki ₺ ",
+        text: `${revenueReportFilter.startDate ?? "xxxx"} - ${
+          revenueReportFilter.endDate ?? "xxxx"
+        } tarihleri arasında ${
+          revenueReportFilter.investmentAmount ?? "0"
+        } ₺ yatırımın getirisi `,
       },
     },
   };

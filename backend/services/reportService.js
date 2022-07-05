@@ -48,6 +48,82 @@ class ReportService extends BaseService {
     }
     return resultArray;
   }
+
+  async cumulativeReport({
+    startDate,
+    endDate,
+    investmentType,
+    investmentAmount,
+  }) {
+    var allFirstDayOfMonth = await mainDataService.query(
+      {
+        day: 1,
+        date: { $gte: moment.utc(startDate), $lte: moment.utc(endDate) },
+      },
+      { date: 1 }
+    );
+
+    var startDateData = await mainDataService.findBy(
+      "date",
+      moment.utc(startDate)
+    );
+    var endDateData = await mainDataService.findBy("date", moment.utc(endDate));
+
+    if (startDateData[0].dateString != allFirstDayOfMonth[0].dateString) {
+      allFirstDayOfMonth.unshift(startDateData[0]);
+    }
+    var resultArray = [];
+    var total = {
+      investmentAmount: 0.0,
+      lastDateInvestmentValue: 0.0,
+      investmentTypeUnitCount: 0.0,
+    };
+
+    var investmentAmount = parseFloat(investmentAmount);
+    for (let i = 0; i < allFirstDayOfMonth.length; i++) {
+      let resultObj = {};
+      let element = allFirstDayOfMonth[i];
+
+      resultObj.investTypeName = investmentType;
+      resultObj.initialUnitPriceTL = element.values[investmentType].toFixed(3);
+      resultObj.lastUnitPriceTL =
+        endDateData[0].values[investmentType].toFixed(3);
+      resultObj.dateString = element.dateString;
+      resultObj.investmentAmount = investmentAmount;
+      resultObj.investmentTypeUnitCount = parseFloat(
+        (investmentAmount / element.values[investmentType]).toFixed(2)
+      );
+      resultObj.lastDateInvestmentValue = parseFloat(
+        (
+          resultObj.investmentTypeUnitCount *
+          endDateData[0].values[investmentType]
+        ).toFixed(4)
+      );
+      resultObj.revenueRate = parseFloat(
+        (
+          (resultObj.lastDateInvestmentValue / investmentAmount) * 100 -
+          100
+        ).toFixed(2)
+      );
+
+      resultArray.push(resultObj);
+
+      total.investmentAmount += investmentAmount;
+      total.lastDateInvestmentValue += resultObj.lastDateInvestmentValue;
+      total.investmentTypeUnitCount += resultObj.investmentTypeUnitCount;
+      total.revenueRate = parseFloat(
+        (
+          (total.lastDateInvestmentValue / total.investmentAmount) * 100 -
+          100
+        ).toFixed(2)
+      );
+    }
+
+    var result = { total, resultArray };
+    console.log({ total, resultArray });
+
+    return result;
+  }
 }
 
 module.exports = new ReportService(Report);

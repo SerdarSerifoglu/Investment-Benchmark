@@ -41,8 +41,17 @@ const CumulativeReportFilter = () => {
         </Grid>
         <Grid item xs={8}>
           <TextFieldNumber
+            labelName="Yatırım Miktarı"
             fieldProperty="investmentAmount"
             valueProperty={reportFilterData["investmentAmount"]}
+            stateName={componentNames.CumulativeReportFilter}
+          />
+        </Grid>
+        <Grid item xs={8}>
+          <TextFieldNumber
+            labelName="Yıllık Birikim Artış Oranı"
+            fieldProperty="improveRate"
+            valueProperty={reportFilterData["improveRate"] ?? 0}
             stateName={componentNames.CumulativeReportFilter}
           />
         </Grid>

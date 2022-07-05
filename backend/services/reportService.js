@@ -54,6 +54,7 @@ class ReportService extends BaseService {
     endDate,
     investmentType,
     investmentAmount,
+    improveRate,
   }) {
     var allFirstDayOfMonth = await mainDataService.query(
       {
@@ -79,10 +80,19 @@ class ReportService extends BaseService {
       investmentTypeUnitCount: 0.0,
     };
 
+    var improveRate = parseFloat(improveRate);
     var investmentAmount = parseFloat(investmentAmount);
     for (let i = 0; i < allFirstDayOfMonth.length; i++) {
       let resultObj = {};
       let element = allFirstDayOfMonth[i];
+
+      if (i != 0) {
+        let beforeElement = allFirstDayOfMonth[i - 1];
+
+        if (element.year != beforeElement.year) {
+          investmentAmount = (investmentAmount * (improveRate + 100)) / 100;
+        }
+      }
 
       resultObj.investTypeName = investmentType;
       resultObj.initialUnitPriceTL = element.values[investmentType].toFixed(3);

@@ -42,6 +42,7 @@ const RevenueReportFilter = () => {
       <br />
       <div>
         <TextFieldNumber
+          labelName="Yatırım Miktarı"
           fieldProperty="investmentAmount"
           valueProperty={reportFilterData["investmentAmount"]}
           stateName={componentNames.RevenueReportFilter}

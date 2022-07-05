@@ -2,7 +2,12 @@ import { TextField } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { changeReportFilter } from "../redux/reportFilters/reportFiltersSlice";
 
-const TextFieldNumber = ({ fieldProperty, valueProperty, stateName }) => {
+const TextFieldNumber = ({
+  labelName,
+  fieldProperty,
+  valueProperty,
+  stateName,
+}) => {
   const dispatch = useDispatch();
 
   const textFieldOnChangeEvent = (e) => {
@@ -13,7 +18,7 @@ const TextFieldNumber = ({ fieldProperty, valueProperty, stateName }) => {
   return (
     <TextField
       id="outlined-number"
-      label="Yatırım Miktarı"
+      label={labelName}
       type="number"
       onChange={textFieldOnChangeEvent}
       defaultValue={valueProperty}

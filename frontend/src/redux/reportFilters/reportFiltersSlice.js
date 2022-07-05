@@ -34,7 +34,7 @@ export const getRevenueReportData = createAsyncThunk(
 const initialState = {
   RevenueReportFilter: {},
   RevenueReportData: [],
-  CumulativeReportFilter: {},
+  CumulativeReportFilter: { improveRate: 0 },
   CumulativeReportData: {},
 };
 

@@ -7,11 +7,16 @@ export const CumulativeReportFilter = (state) =>
   state.reportFilters.CumulativeReportFilter;
 export const RevenueReportData = (state) =>
   state.reportFilters.RevenueReportData;
+export const CumulativeReportData = (state) =>
+  state.reportFilters.CumulativeReportData;
 
 export const getCumulativeReportData = createAsyncThunk(
   "reportFilters/getCumulativeReportData",
   async (filterData) => {
-    const { data } = await httpClientService.post(`test`, filterData);
+    const { data } = await httpClientService.post(
+      `/report/cumulative-report`,
+      filterData
+    );
     return data;
   }
 );
@@ -30,6 +35,7 @@ const initialState = {
   RevenueReportFilter: {},
   RevenueReportData: [],
   CumulativeReportFilter: {},
+  CumulativeReportData: {},
 };
 
 const reportFiltersSlice = createSlice({
@@ -42,6 +48,9 @@ const reportFiltersSlice = createSlice({
     },
   },
   extraReducers: {
+    [getCumulativeReportData.fulfilled]: (state, action) => {
+      state.CumulativeReportData = action.payload;
+    },
     [getRevenueReportData.fulfilled]: (state, action) => {
       state.RevenueReportData = action.payload;
     },

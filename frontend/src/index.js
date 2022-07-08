@@ -30,6 +30,7 @@ import {
   Tooltip,
   SubTitle,
 } from "chart.js";
+import "./style.css";
 
 Chart.register(
   ArcElement,

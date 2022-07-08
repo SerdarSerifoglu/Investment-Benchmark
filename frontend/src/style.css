@@ -1,0 +1,7 @@
+.MuiAutocomplete-listbox > .MuiAutocomplete-option.Mui-focused {
+  color: #f9b390;
+}
+
+.MuiAutocomplete-listbox > .MuiAutocomplete-option {
+  border-bottom: 1px solid #e8e8e8;
+}

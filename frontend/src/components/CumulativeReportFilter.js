@@ -5,27 +5,96 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   getCumulativeReportData,
   CumulativeReportFilter as CRF,
+  deleteInvestmentTypeReportFilter,
 } from "../redux/reportFilters/reportFiltersSlice";
+
 import TextFieldNumber from "./TextFieldNumber";
 import { componentNames } from "../helpers/statics";
+import { useEffect, useState } from "react";
+import styled from "@emotion/styled";
 
 const CumulativeReportFilter = () => {
   const dispatch = useDispatch();
   const reportFilterData = useSelector(CRF);
+  const [investmentTypeCount, setInvestmentTypeCount] = useState(1);
 
   const buttonClickEvent = () => {
     dispatch(getCumulativeReportData(reportFilterData));
+  };
+
+  const plusOrMinusButtonClickEvent = (param) => {
+    if (param === 1 && investmentTypeCount === 5) {
+      return;
+    }
+    if (param === -1 && investmentTypeCount === 1) {
+      return;
+    }
+    if (param === -1) {
+      dispatch(
+        deleteInvestmentTypeReportFilter({
+          propertyNameToBeDeleted: [
+            `investmentType_${investmentTypeCount}`,
+            `investmentType_${investmentTypeCount}_rate`,
+          ],
+          stateName: componentNames.CumulativeReportFilter,
+        })
+      );
+    }
+    setInvestmentTypeCount(investmentTypeCount + param);
+  };
+
+  const investmentTypesPart = () => {
+    var resultArray = [];
+    for (let i = 1; i <= investmentTypeCount; i++) {
+      let propName = `investmentType_${i}`;
+      let propNameRate = `investmentType_${i}_rate`;
+
+      resultArray.push(
+        <>
+          <Grid container spacing={2} sx={{ mb: "10px" }}>
+            <Grid item xs={10}>
+              <AutocompleteSelect
+                fieldProperty={propName}
+                valueProperty={reportFilterData[propName]}
+                stateName={componentNames.CumulativeReportFilter}
+              />
+            </Grid>
+            <Grid item xs={2}>
+              <TextFieldNumber
+                labelName="Birikim Oranı"
+                fieldProperty={propNameRate}
+                valueProperty={reportFilterData[propNameRate] ?? 0}
+                stateName={componentNames.CumulativeReportFilter}
+              />
+            </Grid>
+          </Grid>
+        </>
+      );
+    }
+    return resultArray;
   };
 
   return (
     <>
       <Grid container spacing={2}>
         <Grid item xs={6}>
-          <AutocompleteSelect
-            fieldProperty="investmentType"
-            valueProperty={reportFilterData["investmentType"]}
-            stateName={componentNames.CumulativeReportFilter}
-          />
+          {investmentTypesPart()}
+        </Grid>
+        <Grid item xs={2}>
+          <Button
+            color="success"
+            variant="contained"
+            onClick={() => plusOrMinusButtonClickEvent(1)}
+          >
+            +
+          </Button>
+          <MinusButton
+            color="error"
+            variant="contained"
+            onClick={() => plusOrMinusButtonClickEvent(-1)}
+          >
+            -
+          </MinusButton>
         </Grid>
         <Grid item xs={8}>
           <DatePicker
@@ -64,4 +133,9 @@ const CumulativeReportFilter = () => {
     </>
   );
 };
+
+const MinusButton = styled(Button)`
+  margin-left: 10px;
+`;
+
 export default CumulativeReportFilter;

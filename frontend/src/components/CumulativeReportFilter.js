@@ -6,6 +6,8 @@ import {
   getCumulativeReportData,
   CumulativeReportFilter as CRF,
   deleteInvestmentTypeReportFilter,
+  investmentTypeInputCount,
+  changeInvestmentTypeInputCount,
 } from "../redux/reportFilters/reportFiltersSlice";
 
 import TextFieldNumber from "./TextFieldNumber";
@@ -16,36 +18,38 @@ import styled from "@emotion/styled";
 const CumulativeReportFilter = () => {
   const dispatch = useDispatch();
   const reportFilterData = useSelector(CRF);
-  const [investmentTypeCount, setInvestmentTypeCount] = useState(1);
+  const investmentTypeInputCountData = useSelector(investmentTypeInputCount);
 
   const buttonClickEvent = () => {
     dispatch(getCumulativeReportData(reportFilterData));
   };
 
   const plusOrMinusButtonClickEvent = (param) => {
-    if (param === 1 && investmentTypeCount === 5) {
+    if (param === 1 && investmentTypeInputCountData === 5) {
       return;
     }
-    if (param === -1 && investmentTypeCount === 1) {
+    if (param === -1 && investmentTypeInputCountData === 1) {
       return;
     }
     if (param === -1) {
       dispatch(
         deleteInvestmentTypeReportFilter({
           propertyNameToBeDeleted: [
-            `investmentType_${investmentTypeCount}`,
-            `investmentType_${investmentTypeCount}_rate`,
+            `investmentType_${investmentTypeInputCountData}`,
+            `investmentType_${investmentTypeInputCountData}_rate`,
           ],
           stateName: componentNames.CumulativeReportFilter,
         })
       );
     }
-    setInvestmentTypeCount(investmentTypeCount + param);
+    dispatch(
+      changeInvestmentTypeInputCount(investmentTypeInputCountData + param)
+    );
   };
 
   const investmentTypesPart = () => {
     var resultArray = [];
-    for (let i = 1; i <= investmentTypeCount; i++) {
+    for (let i = 1; i <= investmentTypeInputCountData; i++) {
       let propName = `investmentType_${i}`;
       let propNameRate = `investmentType_${i}_rate`;
 

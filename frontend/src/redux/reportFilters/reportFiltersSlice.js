@@ -9,6 +9,8 @@ export const RevenueReportData = (state) =>
   state.reportFilters.RevenueReportData;
 export const CumulativeReportData = (state) =>
   state.reportFilters.CumulativeReportData;
+export const investmentTypeInputCount = (state) =>
+  state.reportFilters.investmentTypeInputCountForCumulativeReportFilter;
 
 const converterForInvestmentType = (object) => {
   var _object = { ...object };
@@ -125,6 +127,7 @@ const initialState = {
   RevenueReportData: [],
   CumulativeReportFilter: { improveRate: 0 },
   CumulativeReportData: {},
+  investmentTypeInputCountForCumulativeReportFilter: 1,
 };
 
 const reportFiltersSlice = createSlice({
@@ -133,6 +136,20 @@ const reportFiltersSlice = createSlice({
   reducers: {
     changeReportFilter: (state, action) => {
       const { fieldProperty, value, stateName } = action.payload;
+      var keysArray = [
+        "investmentType_1",
+        "investmentType_2",
+        "investmentType_3",
+        "investmentType_4",
+        "investmentType_5",
+      ];
+      if (keysArray.includes(fieldProperty)) {
+        var exist = Object.values(state[stateName]).includes(value);
+        if (exist) {
+          return;
+        }
+      }
+
       state[stateName][fieldProperty] = value;
     },
     deleteInvestmentTypeReportFilter: (state, action) => {
@@ -141,6 +158,10 @@ const reportFiltersSlice = createSlice({
         const element = propertyNameToBeDeleted[i];
         delete state[stateName][element];
       }
+    },
+    changeInvestmentTypeInputCount: (state, action) => {
+      const value = action.payload;
+      state.investmentTypeInputCountForCumulativeReportFilter = value;
     },
   },
   extraReducers: {
@@ -153,6 +174,9 @@ const reportFiltersSlice = createSlice({
   },
 });
 
-export const { changeReportFilter, deleteInvestmentTypeReportFilter } =
-  reportFiltersSlice.actions;
+export const {
+  changeReportFilter,
+  deleteInvestmentTypeReportFilter,
+  changeInvestmentTypeInputCount,
+} = reportFiltersSlice.actions;
 export default reportFiltersSlice.reducer;

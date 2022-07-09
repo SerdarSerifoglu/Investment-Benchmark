@@ -85,8 +85,8 @@ const createObjArrayForInvestmentType = (object) => {
     var keys = Object.keys(_object).filter((e) => e.includes(element));
     if (keys.length == 2) {
       _object["investmentTypeObjects"].push({
-        [`${element}`]: _object[`${element}`],
-        [`${element}_rate`]: _object[`${element}_rate`],
+        investmentType: _object[`${element}`],
+        investmentTypeRate: _object[`${element}_rate`],
       });
     }
   }

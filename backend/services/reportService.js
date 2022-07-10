@@ -48,11 +48,17 @@ class ReportService extends BaseService {
     }
     return resultArray;
   }
-
+  investmentAmountCalculator(amount, improveRate, counter) {
+    let _amount = parseFloat(amount);
+    for (let i = 0; i < counter; i++) {
+      _amount += (_amount * improveRate) / 100;
+    }
+    return _amount;
+  }
   async cumulativeReport({
     startDate,
     endDate,
-    investmentType,
+    investmentTypeObjects,
     investmentAmount,
     improveRate,
   }) {
@@ -81,52 +87,104 @@ class ReportService extends BaseService {
     };
 
     var improveRate = parseFloat(improveRate);
-    var investmentAmount = parseFloat(investmentAmount);
-    for (let i = 0; i < allFirstDayOfMonth.length; i++) {
-      let resultObj = {};
-      let element = allFirstDayOfMonth[i];
 
+    let counter = 0;
+    for (let i = 0; i < allFirstDayOfMonth.length; i++) {
+      let investmentAmountValue = parseFloat(investmentAmount);
+      let element = allFirstDayOfMonth[i];
       if (i != 0) {
         let beforeElement = allFirstDayOfMonth[i - 1];
 
         if (element.year != beforeElement.year) {
-          investmentAmount = (investmentAmount * (improveRate + 100)) / 100;
+          counter++;
         }
       }
+      for (let e = 0; e < investmentTypeObjects.length; e++) {
+        const investmentTypeObject = investmentTypeObjects[e];
 
-      resultObj.investTypeName = investmentType;
-      resultObj.initialUnitPriceTL = element.values[investmentType].toFixed(3);
-      resultObj.lastUnitPriceTL =
-        endDateData[0].values[investmentType].toFixed(3);
-      resultObj.dateString = element.dateString;
-      resultObj.investmentAmount = investmentAmount;
-      resultObj.investmentTypeUnitCount = parseFloat(
-        (investmentAmount / element.values[investmentType]).toFixed(2)
-      );
-      resultObj.lastDateInvestmentValue = parseFloat(
-        (
-          resultObj.investmentTypeUnitCount *
-          endDateData[0].values[investmentType]
-        ).toFixed(4)
-      );
-      resultObj.revenueRate = parseFloat(
-        (
-          (resultObj.lastDateInvestmentValue / investmentAmount) * 100 -
-          100
-        ).toFixed(2)
-      );
+        let resultObj = {};
 
-      resultArray.push(resultObj);
+        var investmentAmountValue2 =
+          (this.investmentAmountCalculator(
+            investmentAmountValue,
+            improveRate,
+            counter
+          ) *
+            investmentTypeObject.investmentTypeRate) /
+          100;
 
-      total.investmentAmount += investmentAmount;
-      total.lastDateInvestmentValue += resultObj.lastDateInvestmentValue;
-      total.investmentTypeUnitCount += resultObj.investmentTypeUnitCount;
-      total.revenueRate = parseFloat(
-        (
-          (total.lastDateInvestmentValue / total.investmentAmount) * 100 -
-          100
-        ).toFixed(2)
-      );
+        resultObj.investTypeName = investmentTypeObject.investmentType;
+        resultObj.initialUnitPriceTL =
+          element.values[investmentTypeObject.investmentType].toFixed(3);
+        resultObj.lastUnitPriceTL =
+          endDateData[0].values[investmentTypeObject.investmentType].toFixed(3);
+        resultObj.dateString = element.dateString;
+        resultObj.investmentAmount = investmentAmountValue2;
+        resultObj.investmentTypeUnitCount = parseFloat(
+          (
+            investmentAmountValue2 /
+            element.values[investmentTypeObject.investmentType]
+          ).toFixed(2)
+        );
+        resultObj.lastDateInvestmentValue = parseFloat(
+          (
+            resultObj.investmentTypeUnitCount *
+            endDateData[0].values[investmentTypeObject.investmentType]
+          ).toFixed(4)
+        );
+        resultObj.revenueRate = parseFloat(
+          (
+            (resultObj.lastDateInvestmentValue / investmentAmountValue2) * 100 -
+            100
+          ).toFixed(2)
+        );
+
+        resultArray.push(resultObj);
+
+        const investmentTypeTotalInvestmentAmount =
+          investmentTypeObject.investmentType + "_investmentAmount";
+        const investmentTypeTotalLastDateInvestmentValue =
+          investmentTypeObject.investmentType + "_lastDateInvestmentValue";
+        const investmentTypeTotalUnitCount =
+          investmentTypeObject.investmentType + "_unitCount";
+        const investmentTypeTotalRevenueRate =
+          investmentTypeObject.investmentType + "_revenueRate";
+
+        if (total[investmentTypeTotalInvestmentAmount] == null) {
+          total[investmentTypeTotalInvestmentAmount] = 0.0;
+        }
+        if (total[investmentTypeTotalLastDateInvestmentValue] == null) {
+          total[investmentTypeTotalLastDateInvestmentValue] = 0.0;
+        }
+        if (total[investmentTypeTotalUnitCount] == null) {
+          total[investmentTypeTotalUnitCount] = 0.0;
+        }
+        if (total[investmentTypeTotalRevenueRate] == null) {
+          total[investmentTypeTotalRevenueRate] = 0.0;
+        }
+        total[investmentTypeTotalInvestmentAmount] += investmentAmountValue2;
+        total[investmentTypeTotalLastDateInvestmentValue] +=
+          resultObj.lastDateInvestmentValue;
+        total[investmentTypeTotalUnitCount] +=
+          resultObj.investmentTypeUnitCount;
+        total[investmentTypeTotalRevenueRate] = parseFloat(
+          (
+            (total[investmentTypeTotalLastDateInvestmentValue] /
+              total[investmentTypeTotalInvestmentAmount]) *
+              100 -
+            100
+          ).toFixed(2)
+        );
+        total.investmentAmount += investmentAmountValue2;
+        total.lastDateInvestmentValue += resultObj.lastDateInvestmentValue;
+        total.investmentTypeUnitCount += resultObj.investmentTypeUnitCount;
+        total.revenueRate = parseFloat(
+          (
+            (total.lastDateInvestmentValue / total.investmentAmount) * 100 -
+            100
+          ).toFixed(2)
+        );
+      }
     }
 
     var result = { total, resultArray };

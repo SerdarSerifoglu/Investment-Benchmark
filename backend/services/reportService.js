@@ -142,13 +142,13 @@ class ReportService extends BaseService {
         resultArray.push(resultObj);
 
         const investmentTypeTotalInvestmentAmount =
-          investmentTypeObject.investmentType + "_investmentAmount";
+          investmentTypeObject.investmentType + "-investmentAmount";
         const investmentTypeTotalLastDateInvestmentValue =
-          investmentTypeObject.investmentType + "_lastDateInvestmentValue";
+          investmentTypeObject.investmentType + "-lastDateInvestmentValue";
         const investmentTypeTotalUnitCount =
-          investmentTypeObject.investmentType + "_unitCount";
+          investmentTypeObject.investmentType + "-unitCount";
         const investmentTypeTotalRevenueRate =
-          investmentTypeObject.investmentType + "_revenueRate";
+          investmentTypeObject.investmentType + "-revenueRate";
 
         if (total[investmentTypeTotalInvestmentAmount] == null) {
           total[investmentTypeTotalInvestmentAmount] = 0.0;
@@ -187,9 +187,27 @@ class ReportService extends BaseService {
       }
     }
 
-    var result = { total, resultArray };
-    console.log({ total, resultArray });
+    var ttArray = [];
+    investmentTypeObjects.forEach((ito) => {
+      console.log("ito", ito);
+      let obj = {};
 
+      Object.entries(total).forEach(([key, value]) => {
+        if (key.startsWith(ito.investmentType)) {
+          var splited = key.split("-");
+          console.log("splited", splited);
+          obj[splited[1]] = value;
+          delete total[key];
+        }
+      });
+      obj.investmentTypeName = ito.investmentType;
+      console.log("OBJ", obj);
+      ttArray.push(obj);
+    });
+
+    total.investmentTypesDatas = ttArray;
+
+    var result = { total, resultArray };
     return result;
   }
 }

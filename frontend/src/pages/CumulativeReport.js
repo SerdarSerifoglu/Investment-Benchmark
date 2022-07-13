@@ -5,7 +5,6 @@ import CumulativeReportSummary from "../components/CumulativeReportSummary";
 const CumulativeReport = () => {
   return (
     <>
-      <div>CumulativeReport</div>
       <br />
       <CumulativeReportFilter />
       <br />

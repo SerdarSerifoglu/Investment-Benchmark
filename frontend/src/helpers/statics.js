@@ -1,6 +1,7 @@
 export const componentNames = Object.freeze({
   RevenueReportFilter: "RevenueReportFilter",
   CumulativeReportFilter: "CumulativeReportFilter",
+  InvestmentToolsFilter: "InvestmentToolsFilter",
 });
 
 export const investmentTypes = Object.freeze([

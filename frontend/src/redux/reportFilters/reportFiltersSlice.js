@@ -11,6 +11,10 @@ export const CumulativeReportData = (state) =>
   state.reportFilters.CumulativeReportData;
 export const investmentTypeInputCount = (state) =>
   state.reportFilters.investmentTypeInputCountForCumulativeReportFilter;
+export const InvestmentToolsFilter = (state) =>
+  state.reportFilters.InvestmentToolsFilter;
+export const InvestmentToolsData = (state) =>
+  state.reportFilters.InvestmentToolsData;
 
 const converterForInvestmentType = (object) => {
   var _object = { ...object };
@@ -122,12 +126,25 @@ export const getRevenueReportData = createAsyncThunk(
   }
 );
 
+export const getInvestmentTools = createAsyncThunk(
+  "reportFilters/getInvestmentTools",
+  async (filterData) => {
+    const { data } = await httpClientService.post(
+      `/report/investment-tools`,
+      filterData
+    );
+    return data;
+  }
+);
+
 const initialState = {
   RevenueReportFilter: {},
   RevenueReportData: [],
   CumulativeReportFilter: { improveRate: 0 },
   CumulativeReportData: {},
   investmentTypeInputCountForCumulativeReportFilter: 1,
+  InvestmentToolsFilter: {},
+  InvestmentToolsData: [],
 };
 
 const reportFiltersSlice = createSlice({
@@ -170,6 +187,9 @@ const reportFiltersSlice = createSlice({
     },
     [getRevenueReportData.fulfilled]: (state, action) => {
       state.RevenueReportData = action.payload;
+    },
+    [getInvestmentTools.fulfilled]: (state, action) => {
+      state.InvestmentToolsData = action.payload;
     },
   },
 });

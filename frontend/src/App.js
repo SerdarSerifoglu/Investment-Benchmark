@@ -5,6 +5,7 @@ import MainPage from "./pages/MainPage";
 import Date from "./pages/admin/Date";
 import DataInsertFromCsv from "./pages/admin/DataInsertFromCsv";
 import RevenueReport from "./pages/RevenueReport";
+import InvestmentTools from "./pages/InvestmentTools";
 
 const App = () => {
   const isAdmin = false;
@@ -15,6 +16,7 @@ const App = () => {
           <Route path="/main-page" element={<MainPage />} />
           <Route path="/cumulative-report" element={<CumulativeReport />} />
           <Route path="/revenue-report" element={<RevenueReport />} />
+          <Route path="/investment-tools" element={<InvestmentTools />} />
           {isAdmin ? (
             <>
               <Route path="/admin/date" element={<Date />} />

@@ -16,6 +16,7 @@ const NavbarTop = () => {
         )}
 
         <NavLinkStyled to="/main-page">Ana Sayfa</NavLinkStyled>
+        <NavLinkStyled to="/investment-tools">Yatırım Araçları</NavLinkStyled>
         <NavLinkStyled to="/revenue-report">Gelir Raporu</NavLinkStyled>
         <NavLinkStyled to="/cumulative-report">Birikimli Rapor</NavLinkStyled>
       </div>

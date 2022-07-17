@@ -13,4 +13,10 @@ router.post("/cumulative-report", async (req, res) => {
   res.json(response);
 });
 
+router.post("/investment-tools", async (req, res) => {
+  const response = await reportService.investmentTools(req.body);
+
+  res.json(response);
+});
+
 module.exports = router;

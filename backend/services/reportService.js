@@ -210,6 +210,23 @@ class ReportService extends BaseService {
     var result = { total, resultArray };
     return result;
   }
+
+  async investmentTools({ startDate, endDate, investmentType }) {
+    console.time("serdar");
+    investmentType = investmentType.map((e) => (e = `values.${e}`));
+    var selectProperties = ["date", "dateString", ...investmentType];
+
+    var allDatesData = await mainDataService.querySelect(
+      {
+        date: { $gte: moment.utc(startDate), $lte: moment.utc(endDate) },
+      },
+      selectProperties,
+      { date: 1 }
+    );
+    console.timeEnd("serdar");
+
+    return allDatesData;
+  }
 }
 
 module.exports = new ReportService(Report);

@@ -8,5 +8,6 @@ frontend/dist
 static
 ./index.html
 asset-manifest.json
+index.html
 csvler
 # frontend/src/http-client/httpClientService.js

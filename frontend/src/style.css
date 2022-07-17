@@ -15,3 +15,11 @@
 .MuiAutocomplete-root.Mui-focused .MuiInputLabel-root {
   color: #f36722;
 }
+
+.MuiFormControl-root label.Mui-focused {
+  color: #f36722;
+}
+
+.MuiFormControl-root div.MuiInputBase-root.Mui-focused::after {
+  border-bottom: 2px solid #f36722;
+}

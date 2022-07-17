@@ -180,6 +180,14 @@ const reportFiltersSlice = createSlice({
       const value = action.payload;
       state.investmentTypeInputCountForCumulativeReportFilter = value;
     },
+    assignDefaultStartDate: (state, action) => {
+      const { stateName, value } = action.payload;
+      state[stateName].startDate = value;
+    },
+    assignDefaultEndDate: (state, action) => {
+      const { stateName, value } = action.payload;
+      state[stateName].endDate = value;
+    },
   },
   extraReducers: {
     [getCumulativeReportData.fulfilled]: (state, action) => {
@@ -198,5 +206,7 @@ export const {
   changeReportFilter,
   deleteInvestmentTypeReportFilter,
   changeInvestmentTypeInputCount,
+  assignDefaultStartDate,
+  assignDefaultEndDate,
 } = reportFiltersSlice.actions;
 export default reportFiltersSlice.reducer;

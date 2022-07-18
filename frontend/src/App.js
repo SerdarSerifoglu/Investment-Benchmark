@@ -6,6 +6,7 @@ import Date from "./pages/admin/Date";
 import DataInsertFromCsv from "./pages/admin/DataInsertFromCsv";
 import RevenueReport from "./pages/RevenueReport";
 import InvestmentTools from "./pages/InvestmentTools";
+import CsvLoad from "./pages/admin/CsvLoad";
 
 const App = () => {
   const isAdmin = false;
@@ -21,6 +22,7 @@ const App = () => {
             <>
               <Route path="/admin/date" element={<Date />} />
               <Route path="/admin/csv" element={<DataInsertFromCsv />} />
+              <Route path="/admin/csv-load" element={<CsvLoad />} />
             </>
           ) : (
             ""

@@ -9,7 +9,8 @@ const NavbarTop = () => {
         {isAdmin ? (
           <>
             <NavLinkStyled to="/admin/date">Admin-Tarih</NavLinkStyled>
-            <NavLinkStyled to="/admin/csv">Admin-CSV</NavLinkStyled>
+            <NavLinkStyled to="/admin/csv">Admin-CSV</NavLinkStyled>{" "}
+            <NavLinkStyled to="/admin/csv-load">Admin-CSVLoad</NavLinkStyled>
           </>
         ) : (
           ""

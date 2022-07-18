@@ -81,7 +81,6 @@ const CumulativeReportFilter = () => {
                 fieldProperty={propName}
                 valueProperty={reportFilterData[propName]}
                 stateName={componentNames.CumulativeReportFilter}
-                labelValue="Başlangıç Tarihi"
               />
             </Grid>
             <Grid item xs={5} md={3}>
@@ -90,7 +89,6 @@ const CumulativeReportFilter = () => {
                 fieldProperty={propNameRate}
                 valueProperty={reportFilterData[propNameRate] ?? 0}
                 stateName={componentNames.CumulativeReportFilter}
-                labelValue="Bitiş Tarihi"
               />
             </Grid>
           </Grid>
@@ -134,11 +132,13 @@ const CumulativeReportFilter = () => {
             fieldProperty="startDate"
             valueProperty={reportFilterData["startDate"]}
             stateName={componentNames.CumulativeReportFilter}
+            labelValue="Başlangıç Tarihi"
           />
           <DatePicker
             fieldProperty="endDate"
             valueProperty={reportFilterData["endDate"]}
             stateName={componentNames.CumulativeReportFilter}
+            labelValue="Bitiş Tarihi"
           />
         </Grid>
         <Grid item xs={8}>

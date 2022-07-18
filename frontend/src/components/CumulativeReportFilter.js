@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import AutocompleteSelect from "./AutocompleteSelect";
 import { Button, Grid } from "@mui/material";
 import { DatePicker } from "./DatePicker";
@@ -8,17 +9,36 @@ import {
   deleteInvestmentTypeReportFilter,
   investmentTypeInputCount,
   changeInvestmentTypeInputCount,
+  assignDefaultStartDate,
+  assignDefaultEndDate,
 } from "../redux/reportFilters/reportFiltersSlice";
 
 import TextFieldNumber from "./TextFieldNumber";
 import { componentNames } from "../helpers/statics";
-import { useEffect, useState } from "react";
+
 import styled from "@emotion/styled";
 
 const CumulativeReportFilter = () => {
   const dispatch = useDispatch();
   const reportFilterData = useSelector(CRF);
   const investmentTypeInputCountData = useSelector(investmentTypeInputCount);
+
+  useEffect(() => {
+    if (!reportFilterData["startDate"]) {
+      dispatch(
+        assignDefaultStartDate({
+          stateName: componentNames.CumulativeReportFilter,
+          value: "2022-06-01",
+        })
+      );
+      dispatch(
+        assignDefaultEndDate({
+          stateName: componentNames.CumulativeReportFilter,
+          value: "2022-06-30",
+        })
+      );
+    }
+  }, []);
 
   const buttonClickEvent = () => {
     dispatch(getCumulativeReportData(reportFilterData));
@@ -61,6 +81,7 @@ const CumulativeReportFilter = () => {
                 fieldProperty={propName}
                 valueProperty={reportFilterData[propName]}
                 stateName={componentNames.CumulativeReportFilter}
+                labelValue="Başlangıç Tarihi"
               />
             </Grid>
             <Grid item xs={2}>
@@ -69,6 +90,7 @@ const CumulativeReportFilter = () => {
                 fieldProperty={propNameRate}
                 valueProperty={reportFilterData[propNameRate] ?? 0}
                 stateName={componentNames.CumulativeReportFilter}
+                labelValue="Bitiş Tarihi"
               />
             </Grid>
           </Grid>

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import AutocompleteSelect from "./AutocompleteSelect";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Box } from "@mui/material";
 import { DatePicker } from "./DatePicker";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -76,7 +76,7 @@ const CumulativeReportFilter = () => {
       resultArray.push(
         <>
           <Grid container spacing={2} sx={{ mb: "10px" }}>
-            <Grid item xs={10}>
+            <Grid item xs={7} md={9}>
               <AutocompleteSelect
                 fieldProperty={propName}
                 valueProperty={reportFilterData[propName]}
@@ -84,7 +84,7 @@ const CumulativeReportFilter = () => {
                 labelValue="Başlangıç Tarihi"
               />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={5} md={3}>
               <TextFieldNumber
                 labelName="Birikim Oranı"
                 fieldProperty={propNameRate}
@@ -103,24 +103,31 @@ const CumulativeReportFilter = () => {
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item xs={6}>
+        <Grid item xs={8}>
           {investmentTypesPart()}
         </Grid>
         <Grid item xs={2}>
-          <Button
-            color="success"
-            variant="contained"
-            onClick={() => plusOrMinusButtonClickEvent(1)}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-start",
+            }}
           >
-            +
-          </Button>
-          <MinusButton
-            color="error"
-            variant="contained"
-            onClick={() => plusOrMinusButtonClickEvent(-1)}
-          >
-            -
-          </MinusButton>
+            <Button
+              color="success"
+              variant="contained"
+              onClick={() => plusOrMinusButtonClickEvent(1)}
+            >
+              +
+            </Button>
+            <MinusButton
+              color="error"
+              variant="contained"
+              onClick={() => plusOrMinusButtonClickEvent(-1)}
+            >
+              -
+            </MinusButton>
+          </Box>
         </Grid>
         <Grid item xs={8}>
           <DatePicker

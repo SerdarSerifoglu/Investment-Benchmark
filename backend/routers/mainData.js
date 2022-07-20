@@ -8,4 +8,16 @@ router.get("/", async (req, res) => {
   res.json(response);
 });
 
+router.get("/testCsv", async (req, res) => {
+  const response = await mainDataService.testCsv();
+
+  res.json(response);
+});
+
+router.get("/testCsvInvest", async (req, res) => {
+  const response = await mainDataService.testCsvInvesting();
+
+  res.json(response);
+});
+
 module.exports = router;

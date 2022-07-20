@@ -2,7 +2,16 @@ const BaseService = require("./baseService");
 const MainData = require("../models/mainData");
 const TempService = require("./tempService");
 const DateService = require("./dateService");
-const { onsConvertToGram } = require("../helpers/utils/commonUseFunctions");
+const {
+  onsConvertToGram,
+  dateStringConvertNumericNotConvert,
+  dateStringReplaceAndReturn,
+  dateStringConvertNumeric,
+} = require("../helpers/utils/commonUseFunctions");
+
+var fs = require("fs");
+const path = require("path");
+const csv = require("csvtojson");
 
 class MainDataService extends BaseService {
   async createMainDataFromTemps() {
@@ -52,6 +61,418 @@ class MainDataService extends BaseService {
     }
 
     const result = await this.save(resultArray);
+  }
+
+  async testCsv() {
+    try {
+      const dirPath = path.resolve(__dirname, "../csvler/");
+      var files = fs.readdirSync(dirPath);
+      var finishedFileNames = [];
+      var tempArray = [];
+      var firstDate = 0;
+      var lastDate = 0;
+      for (let i = 0; i < files.length; i++) {
+        var insertManyArray = [];
+        /* Burası sonradan db üzerinden çalışacak şekle getirilecek */
+        var types = [
+          "ADESE",
+          "AEFES",
+          "AGHOL",
+          "AKBNK",
+          "AKSA",
+          "AKSEN",
+          "ALARK",
+          "ALBRK",
+          "ALGYO",
+          "ALKIM",
+          "ARCLK",
+          "ARDYZ",
+          "ASELS",
+          "AYDEM",
+          "BERA",
+          "BIMAS",
+          "BRISA",
+          "BRYAT",
+          "BUCIM",
+          "CANTE",
+          "CCOLA",
+          "CEMAS",
+          "CEMTS",
+          "CIMSA",
+          "DEVA",
+          "DOAS",
+          "DOHOL",
+          "ECILC",
+          "EGEEN",
+          "EKGYO",
+          "ENKAI",
+          "ERBOS",
+          "EREGL",
+          "FROTO",
+          "GARAN",
+          "GLYHO",
+          "GOZDE",
+          "GSDHO",
+          "GUBRF",
+          "GWIND",
+          "HALKB",
+          "HEKTS",
+          "INDES",
+          "IPEKE",
+          "ISCTR",
+          "ISDMR",
+          "ISFIN",
+          "ISGYO",
+          "ISMEN",
+          "IZMDC",
+          "JANTS",
+          "KARSN",
+          "KARTN",
+          "KCHOL",
+          "KERVT",
+          "KONTR",
+          "KORDS",
+          "KOZAA",
+          "KOZAL",
+          "KRDMD",
+          "LOGO",
+          "MAVI",
+          "MGROS",
+          "NTHOL",
+          "NUGYO",
+          "ODAS",
+          "OTKAR",
+          "OYAKC",
+          "PARSN",
+          "PETKM",
+          "PGSUS",
+          "QUAGR",
+          "RTALB",
+          "SARKY",
+          "SASA",
+          "SELEC",
+          "SISE",
+          "SKBNK",
+          "SNGYO",
+          "SOKM",
+          "TAVHL",
+          "TCELL",
+          "THYAO",
+          "TKFEN",
+          "TKNSA",
+          "TOASO",
+          "TRGYO",
+          "TSKB",
+          "TTKOM",
+          "TTRAK",
+          "TUPRS",
+          "TURSG",
+          "ULKER",
+          "VAKBN",
+          "VERUS",
+          "VESBE",
+          "VESTL",
+          "YATAS",
+          "YKBNK",
+          "ZOREN",
+        ];
+        const fileName = files[i];
+        var type = "";
+        types.forEach((t) => {
+          if (fileName.includes(t)) {
+            type = t;
+          }
+        });
+        if (type == "") continue;
+
+        var csvFilePath = dirPath + "/" + fileName;
+
+        var jsonArray = await csv().fromFile(csvFilePath);
+
+        ////Tarih Ayıklama
+        var csvFirstItemDate = dateStringConvertNumericNotConvert(
+          jsonArray[0]["Date"],
+          "-"
+        );
+        var csvLastItemDate = dateStringConvertNumericNotConvert(
+          jsonArray[jsonArray.length - 1]["Date"],
+          "-"
+        );
+
+        firstDate =
+          csvFirstItemDate > csvLastItemDate
+            ? csvLastItemDate
+            : csvFirstItemDate;
+        lastDate =
+          csvFirstItemDate > csvLastItemDate
+            ? csvFirstItemDate
+            : csvLastItemDate;
+        ////Tarih Ayıklama Son
+
+        var allDateData = await DateService.load({
+          dateNumeric: { $gte: firstDate, $lte: lastDate },
+        });
+        allDateData.sort(
+          (a, b) => Number(a.dateNumeric) - Number(b.dateNumeric)
+        );
+
+        for (let w = 0; w < allDateData.length; w++) {
+          var csvData = jsonArray.find(
+            (e) =>
+              e.Date == dateStringReplaceAndReturn(allDateData[w].dateString)
+          );
+          // if (!csvData) {
+          //   if (allDateData[w].values == null) {
+          //     allDateData[w].values = {};
+          //   }
+          //   allDateData[w].values[type] = allDateData[w - 1].values[type];
+          //   continue;
+          // }
+
+          if (allDateData[w].values == null) {
+            allDateData[w].values = {};
+          }
+
+          if (csvData) {
+            if (csvData["Close"] == "null") {
+              allDateData[w].values[type] = allDateData[w - 1].values[type];
+              // console.log("beforeDateObj", allDateData[w - 1]);
+            } else {
+              allDateData[w].values[type] = parseFloat(csvData["Close"]);
+            }
+          } else {
+            if (w == 0) {
+              allDateData[w].values[type] = 0;
+            } else {
+              allDateData[w].values[type] = allDateData[w - 1].values[type];
+            }
+          }
+
+          var tempArrayObj = tempArray.find(
+            (e) => e.dateString == allDateData[w].dateString
+          );
+          if (!tempArrayObj) {
+            tempArrayObj = {
+              dateString: allDateData[w].dateString,
+              date: allDateData[w].date,
+              year: allDateData[w].year,
+              month: allDateData[w].month,
+              day: allDateData[w].day,
+              dateNumeric: allDateData[w].dateNumeric,
+              weekDay: allDateData[w].weekDay,
+              values: {
+                [type]: allDateData[w].values[type],
+              },
+            };
+            tempArray.push(tempArrayObj);
+          } else {
+            tempArrayObj.values = {
+              ...tempArrayObj["values"],
+              [type]: allDateData[w].values[type],
+            };
+          }
+          console.log(w);
+        }
+        finishedFileNames.push(fileName);
+        console.log(fileName);
+      }
+
+      // console.log("tempArray", tempArray);
+
+      var insertObjects = [];
+      var allMainData = await this.load({
+        dateNumeric: { $gte: firstDate, $lte: lastDate },
+      });
+
+      for (let i = 0; i < tempArray.length; i++) {
+        const tempObj = tempArray[i];
+
+        var mainData = allMainData.find(
+          (mainData) => mainData.dateString == tempObj.dateString
+        );
+
+        if (!mainData) {
+          insertObjects.push(tempObj);
+        } else {
+          if (mainData.values == null) {
+            mainData.values == tempObj.values;
+          } else {
+            mainData.values = { ...mainData.values, ...tempObj.values };
+          }
+          console.log(`up_${i}`, mainData);
+
+          await this.update(mainData._id, mainData);
+        }
+      }
+      // console.log(insertObjects, "insertObjects");
+      if (insertObjects.length > 0) {
+        await this.save(insertObjects);
+      }
+
+      return await {
+        success: true,
+        message: `${finishedFileNames.length} adet csv dosyası aktarılmıştır`,
+        data: finishedFileNames,
+      };
+    } catch (error) {
+      console.log(`Error: ${error.message} `);
+      return {
+        success: false,
+        message: `Error: ${error.message} `,
+      };
+    }
+  }
+
+  async testCsvInvesting() {
+    try {
+      const dirPath = path.resolve(__dirname, "../csvler/");
+      var files = fs.readdirSync(dirPath);
+      var finishedFileNames = [];
+      var tempArray = [];
+      var firstDate = 0;
+      var lastDate = 0;
+      for (let i = 0; i < files.length; i++) {
+        var insertManyArray = [];
+        /* Burası sonradan db üzerinden çalışacak şekle getirilecek */
+        var types = ["ALTIN", "GUMUS", "USD", "EUR"];
+        const fileName = files[i];
+        var type = "";
+        types.forEach((t) => {
+          if (fileName.includes(t)) {
+            type = t;
+          }
+        });
+        if (type == "") continue;
+
+        var csvFilePath = dirPath + "/" + fileName;
+
+        var jsonArray = await csv().fromFile(csvFilePath);
+
+        ////Tarih Ayıklama
+        var csvFirstItemDate = dateStringConvertNumeric(jsonArray[0]["Tarih"]);
+        var csvLastItemDate = dateStringConvertNumeric(
+          jsonArray[jsonArray.length - 1]["Tarih"]
+        );
+
+        firstDate =
+          csvFirstItemDate > csvLastItemDate
+            ? csvLastItemDate
+            : csvFirstItemDate;
+        lastDate =
+          csvFirstItemDate > csvLastItemDate
+            ? csvFirstItemDate
+            : csvLastItemDate;
+        ////Tarih Ayıklama Son
+
+        var allDateData = await DateService.load({
+          dateNumeric: { $gte: firstDate, $lte: lastDate },
+        });
+        allDateData.sort(
+          (a, b) => Number(a.dateNumeric) - Number(b.dateNumeric)
+        );
+
+        for (let w = 0; w < allDateData.length; w++) {
+          var csvData = jsonArray.find(
+            (e) => e.Tarih == allDateData[w].dateString
+          );
+          // if (!csvData) {
+          //   if (allDateData[w].values == null) {
+          //     allDateData[w].values = {};
+          //   }
+          //   allDateData[w].values[type] = allDateData[w - 1].values[type];
+          //   continue;
+          // }
+
+          if (allDateData[w].values == null) {
+            allDateData[w].values = {};
+          }
+
+          if (csvData) {
+            console.log("csvData", csvData);
+
+            allDateData[w].values[type] = parseFloat(
+              csvData["Şimdi"].replace(".", "").replace(",", ".")
+            );
+          } else {
+            if (w == 0) {
+              allDateData[w].values[type] = 0;
+            } else {
+              allDateData[w].values[type] = allDateData[w - 1].values[type];
+            }
+          }
+
+          var tempArrayObj = tempArray.find(
+            (e) => e.dateString == allDateData[w].dateString
+          );
+          if (!tempArrayObj) {
+            tempArrayObj = {
+              dateString: allDateData[w].dateString,
+              date: allDateData[w].date,
+              year: allDateData[w].year,
+              month: allDateData[w].month,
+              day: allDateData[w].day,
+              dateNumeric: allDateData[w].dateNumeric,
+              weekDay: allDateData[w].weekDay,
+              values: {
+                [type]: allDateData[w].values[type],
+              },
+            };
+            tempArray.push(tempArrayObj);
+          } else {
+            tempArrayObj.values = {
+              ...tempArrayObj["values"],
+              [type]: allDateData[w].values[type],
+            };
+          }
+          console.log(w);
+        }
+        finishedFileNames.push(fileName);
+        console.log(fileName);
+      }
+
+      // console.log("tempArray", tempArray);
+
+      var insertObjects = [];
+      var allMainData = await this.load({
+        dateNumeric: { $gte: firstDate, $lte: lastDate },
+      });
+
+      for (let i = 0; i < tempArray.length; i++) {
+        const tempObj = tempArray[i];
+
+        var mainData = allMainData.find(
+          (mainData) => mainData.dateString == tempObj.dateString
+        );
+
+        if (!mainData) {
+          insertObjects.push(tempObj);
+        } else {
+          if (mainData.values == null) {
+            mainData.values == tempObj.values;
+          } else {
+            mainData.values = { ...mainData.values, ...tempObj.values };
+          }
+          console.log(`up_${i}`, mainData);
+          await this.update(mainData._id, mainData);
+        }
+      }
+      // console.log(insertObjects, "insertObjects");
+      if (insertObjects.length > 0) {
+        await this.save(insertObjects);
+      }
+
+      return await {
+        success: true,
+        message: `${finishedFileNames.length} adet csv dosyası aktarılmıştır`,
+        data: finishedFileNames,
+      };
+    } catch (error) {
+      console.log(`Error: ${error.message} `);
+      return {
+        success: false,
+        message: `Error: ${error.message} `,
+      };
+    }
   }
 }
 

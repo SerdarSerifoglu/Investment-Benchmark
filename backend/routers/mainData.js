@@ -20,4 +20,10 @@ router.get("/testCsvInvest", async (req, res) => {
   res.json(response);
 });
 
+router.get("/dailyDataInsertBist", async (req, res) => {
+  const response = await mainDataService.insertBistDataFromAPI();
+
+  res.json(response);
+});
+
 module.exports = router;

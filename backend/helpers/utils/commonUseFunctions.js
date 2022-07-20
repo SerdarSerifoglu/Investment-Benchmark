@@ -1,3 +1,5 @@
+const moment = require("moment");
+
 module.exports.dateStringConvertNumeric = (value, split = ".") => {
   var _value = value.split(split);
   return parseInt(_value[2] + _value[1] + _value[0]);
@@ -20,4 +22,9 @@ module.exports.onsConvertToGram = (onsValue, usdTryValue) => {
     result: (onsValue / 31.1) * usdTryValue,
   });
   return (onsValue / 31.1) * usdTryValue;
+};
+
+module.exports.findTodayDateAndConvertDateString = () => {
+  var time = moment().format("DD.MM.YYYY");
+  return time;
 };

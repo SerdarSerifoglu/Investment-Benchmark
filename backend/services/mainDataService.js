@@ -2,11 +2,13 @@ const BaseService = require("./baseService");
 const MainData = require("../models/mainData");
 const TempService = require("./tempService");
 const DateService = require("./dateService");
+const axios = require("axios");
 const {
   onsConvertToGram,
   dateStringConvertNumericNotConvert,
   dateStringReplaceAndReturn,
   dateStringConvertNumeric,
+  findTodayDateAndConvertDateString,
 } = require("../helpers/utils/commonUseFunctions");
 
 var fs = require("fs");
@@ -473,6 +475,49 @@ class MainDataService extends BaseService {
         message: `Error: ${error.message} `,
       };
     }
+  }
+
+  async insertBistDataFromAPI() {
+    var todayDateString = await findTodayDateAndConvertDateString();
+
+    var response = await axios.get(process.env.HISSE_API, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: process.env.HISSE_API_KEY,
+      },
+    });
+
+    var data = response.data.result;
+    var resultObj = { values: {} };
+
+    var datesData = await DateService.findOneBy("dateString", todayDateString);
+    var mainData = await this.findOneBy("dateString", todayDateString);
+
+    data.forEach((e) => {
+      var splitedText = e.text.split("-");
+      var code = splitedText[0].trim();
+      var name = splitedText[1].trim();
+      resultObj.values[code] = e.lastprice;
+    });
+
+    if (!mainData) {
+      resultObj.date = datesData.date;
+      resultObj.year = datesData.year;
+      resultObj.month = datesData.month;
+      resultObj.day = datesData.day;
+      resultObj.weekDay = datesData.weekDay;
+      resultObj.dateString = datesData.dateString;
+      resultObj.dateNumeric = datesData.dateNumeric;
+      var result = await this.insert(resultObj);
+    } else {
+      var result = await this.update(mainDataç_id, resultObj);
+    }
+
+    return {
+      success: true,
+      message: `aktarım tamamlanmıştır`,
+      data: result,
+    };
   }
 }
 

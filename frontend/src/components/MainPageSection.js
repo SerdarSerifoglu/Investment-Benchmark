@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { deviceMin, deviceMax } from "../helpers/deviceWidth";
 
@@ -9,6 +10,7 @@ const MainPageSection = (props) => {
     mainImage,
     imagePositionLeft,
     sectionHeight,
+    buttonRouter,
   } = props.children;
   return (
     <>
@@ -21,7 +23,9 @@ const MainPageSection = (props) => {
           <InfoPart>
             <Title>{titleText}</Title>
             <Description>{descriptionText}</Description>
-            <Button>{buttonText}</Button>
+            <NavLink to={buttonRouter}>
+              <Button>{buttonText}</Button>
+            </NavLink>
           </InfoPart>
         </SectionWrapper>
       ) : (
@@ -30,7 +34,9 @@ const MainPageSection = (props) => {
           <InfoPart>
             <Title>{titleText}</Title>
             <Description>{descriptionText}</Description>
-            <Button>{buttonText}</Button>
+            <NavLink to={buttonRouter}>
+              <Button>{buttonText}</Button>
+            </NavLink>
           </InfoPart>
           <ImagePart>
             <Image src={mainImage}></Image>
@@ -85,9 +91,11 @@ const InfoPart = styled.div`
 `;
 
 const Title = styled.div`
+  font-style: normal;
   font-weight: 700;
   font-size: 64px;
   line-height: 80px;
+  letter-spacing: -1.5px;
 
   @media ${deviceMax.tablet} {
     font-size: 36px;

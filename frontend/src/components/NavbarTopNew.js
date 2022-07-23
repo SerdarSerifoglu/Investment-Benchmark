@@ -88,6 +88,7 @@ const MenuLink = styled(NavLink)`
   color: ${(props) => props.theme.mcv.white};
   margin: 0 16px;
   text-decoration: none;
+  font-style: normal;
   font-weight: 600;
   font-size: 16px;
   line-height: 20px;

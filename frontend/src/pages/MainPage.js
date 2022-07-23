@@ -12,6 +12,7 @@ const firstSection = {
   mainImage: BusinessImage,
   imagePositionLeft: false,
   sectionHeight: 676,
+  buttonRouter: "/revenue-report",
 };
 
 const secondSection = {
@@ -22,6 +23,7 @@ const secondSection = {
   mainImage: SecondSectionImage,
   imagePositionLeft: true,
   sectionHeight: 505,
+  buttonRouter: "/investment-tools",
 };
 
 const thirdSection = {
@@ -32,6 +34,7 @@ const thirdSection = {
   mainImage: ThirdSectionImage,
   imagePositionLeft: false,
   sectionHeight: 487,
+  buttonRouter: "/revenue-report",
 };
 
 const fourthSection = {
@@ -42,6 +45,7 @@ const fourthSection = {
   mainImage: FourthSectionImage,
   imagePositionLeft: true,
   sectionHeight: 758,
+  buttonRouter: "/cumulative-report",
 };
 
 const MainPage = () => {

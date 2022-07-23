@@ -1,13 +1,18 @@
 {
   "files": {
     "main.css": "/static/css/main.f891cc14.css",
-    "main.js": "/static/js/main.bd83772f.js",
+    "main.js": "/static/js/main.cc100b04.js",
+    "static/media/business-3d-man-standing-near-the-board-with-business-analytics.png": "/static/media/business-3d-man-standing-near-the-board-with-business-analytics.a8e04782b5a335db1da6.png",
+    "static/media/business-3d-thoughtful-businessman-with-calculator-coins-and-question-mark-behind 1.png": "/static/media/business-3d-thoughtful-businessman-with-calculator-coins-and-question-mark-behind 1.e3cad378d11a3824d0d4.png",
+    "static/media/business-3d-search-window.png": "/static/media/business-3d-search-window.a668ebeaeb211db91307.png",
+    "static/media/business-3d-pile-of-gold-bars 1.png": "/static/media/business-3d-pile-of-gold-bars 1.2f4dfeeec81662d26fe8.png",
+    "static/media/Logo.svg": "/static/media/Logo.72b2ead854d0ea26747db2883942b85d.svg",
     "index.html": "/index.html",
     "main.f891cc14.css.map": "/static/css/main.f891cc14.css.map",
-    "main.bd83772f.js.map": "/static/js/main.bd83772f.js.map"
+    "main.cc100b04.js.map": "/static/js/main.cc100b04.js.map"
   },
   "entrypoints": [
     "static/css/main.f891cc14.css",
-    "static/js/main.bd83772f.js"
+    "static/js/main.cc100b04.js"
   ]
 }

@@ -1,10 +1,15 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import NavbarTop from "../components/NavbarTop";
 import NavbarTopNew from "../components/NavbarTopNew";
 import styled from "styled-components";
 import { deviceMax, deviceMin } from "../helpers/deviceWidth";
+import { useEffect } from "react";
 
 const Layout = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate("/main-page");
+  }, []);
   return (
     <>
       <LayoutWrapper>

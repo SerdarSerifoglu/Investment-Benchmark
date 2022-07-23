@@ -1,4 +1,4 @@
-import MainPageSectionLeft from "../components/MainPageSectionLeft";
+import MainPageSection from "../components/MainPageSection";
 import BusinessImage from "../images/business-3d-thoughtful-businessman-with-calculator-coins-and-question-mark-behind 1.png";
 import ThirdSectionImage from "../images/business-3d-search-window.png";
 import SecondSectionImage from "../images/business-3d-pile-of-gold-bars 1.png";
@@ -47,10 +47,10 @@ const fourthSection = {
 const MainPage = () => {
   return (
     <>
-      <MainPageSectionLeft>{firstSection}</MainPageSectionLeft>
-      <MainPageSectionLeft>{secondSection}</MainPageSectionLeft>
-      <MainPageSectionLeft>{thirdSection}</MainPageSectionLeft>
-      <MainPageSectionLeft>{fourthSection}</MainPageSectionLeft>
+      <MainPageSection>{firstSection}</MainPageSection>
+      <MainPageSection>{secondSection}</MainPageSection>
+      <MainPageSection>{thirdSection}</MainPageSection>
+      <MainPageSection>{fourthSection}</MainPageSection>
     </>
   );
 };

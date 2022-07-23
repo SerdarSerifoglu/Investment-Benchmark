@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { deviceMin, deviceMax } from "../helpers/deviceWidth";
 
-const MainPageSectionLeft = (props) => {
+const MainPageSection = (props) => {
   const {
     titleText,
     descriptionText,
@@ -141,4 +141,4 @@ const Button = styled.button`
   }
 `;
 
-export default MainPageSectionLeft;
+export default MainPageSection;

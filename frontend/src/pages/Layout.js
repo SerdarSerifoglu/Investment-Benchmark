@@ -19,7 +19,10 @@ const Layout = () => {
   );
 };
 const OutletWrapper = styled.div`
-  padding: 20px 10px 0 10px;
+  max-width: ${(props) => props.theme.mcv.full_width};
+  @media ${deviceMax.laptop} {
+    max-width: 100vh;
+  }
 `;
 const LayoutWrapper = styled.div`
   display: flex;

@@ -35,10 +35,6 @@ const NavbarTopNew = () => {
     </>
   );
 };
-const SERDAR = styled(NavLink)`
-  /* Color the border and text with theme */
-  color: ${(props) => props.theme.mcv.green};
-`;
 
 const Navbar = styled.div`
   position: sticky;
@@ -51,13 +47,10 @@ const NavbarTop = styled.div`
   background-color: ${(props) => props.theme.mcv.purple};
   display: flex;
   flex-direction: row;
-  width: 100vw;
+  width: ${(props) => props.theme.mcv.full_width};
 
   @media ${deviceMax.laptop} {
     width: 100vw;
-  }
-  @media ${deviceMin.laptop} {
-    width: ${(props) => props.theme.mcv.full_width};
   }
 `;
 
@@ -70,12 +63,13 @@ const NavLinkStyled = styled(NavLink)`
 
 const Logo = styled.img`
   flex: 1;
-  margin: 20px;
+  margin-left: 60px;
   width: 100%;
   max-width: 414px;
   height: auto;
-  @media ${deviceMax.mobileL} {
-    margin: 5px;
+  @media ${deviceMax.tablet} {
+    margin-left: 15px;
+    flex: 0.5;
   }
 `;
 
@@ -83,13 +77,20 @@ const MenuLinks = styled.div`
   flex: 3;
   display: flex;
   justify-content: flex-end;
+  margin-right: 44px;
   align-items: center;
+  @media ${deviceMax.tablet} {
+    flex: 3.5;
+  }
 `;
 
 const MenuLink = styled(NavLink)`
   color: ${(props) => props.theme.mcv.white};
-  margin: 20px;
+  margin: 0 16px;
   text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
   &:hover {
     border-bottom: 3px solid ${(props) => props.theme.mcv.orange};
     padding-bottom: 1px;
@@ -103,8 +104,8 @@ const MenuLink = styled(NavLink)`
     border-radius: 1x;
   }
 
-  @media ${deviceMax.mobileL} {
-    margin: 5px;
+  @media ${deviceMax.tablet} {
+    margin-right: 10px;
   }
 `;
 
@@ -119,7 +120,7 @@ const NavbarBottomTriangleLeft = styled.div`
   height: 0;
   border-top: 40px solid ${(props) => props.theme.mcv.orange};
   border-right: ${(props) => props.theme.mcv.navbar_bottom_triangle_left_width}
-    solid transparent;
+    solid ${(props) => props.theme.mcv.mainpage_section_bc};
   &:before {
     content: " ";
     position: absolute;
@@ -140,22 +141,15 @@ const NavbarBottomTriangleRight = styled.div`
   height: 0;
   border-top: 40px solid ${(props) => props.theme.mcv.orange};
   border-left: calc(
-      100vw - ${(props) => props.theme.mcv.navbar_bottom_triangle_left_width}
+      ${(props) => props.theme.mcv.full_width} -
+        ${(props) => props.theme.mcv.navbar_bottom_triangle_left_width}
     )
-    solid transparent;
-
+    solid ${(props) => props.theme.mcv.mainpage_section_bc};
   @media ${deviceMax.laptop} {
     border-left: calc(
         100vw - ${(props) => props.theme.mcv.navbar_bottom_triangle_left_width}
       )
-      solid transparent;
-  }
-  @media ${deviceMin.laptop} {
-    border-left: calc(
-        ${(props) => props.theme.mcv.full_width} -
-          ${(props) => props.theme.mcv.navbar_bottom_triangle_left_width}
-      )
-      solid transparent;
+      solid ${(props) => props.theme.mcv.mainpage_section_bc};
   }
 
   &:before {

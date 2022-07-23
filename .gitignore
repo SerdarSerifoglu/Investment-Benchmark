@@ -5,9 +5,9 @@ node_modules
 coverage/
 .vscode/
 frontend/dist
-static
-./index.html
-asset-manifest.json
-index.html
+# static
+# ./index.html
+# asset-manifest.json
+# index.html
 csvler
 # frontend/src/http-client/httpClientService.js
